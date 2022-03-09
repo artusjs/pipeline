@@ -50,4 +50,5 @@ export class Context implements BaseContext {
 
 export type Middleware = (context: Context, next: Next) => void;
 export type Middlewares = Middleware[];
-export type MiddlewareInput = Middleware | Middlewares | { middleware: Middleware };
+export type PipelineLike = { middlewares: Middlewares };
+export type MiddlewareInput = Middleware | Middlewares | PipelineLike;

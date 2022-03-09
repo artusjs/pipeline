@@ -47,27 +47,25 @@ describe('test/pipeline.test.ts', () => {
     assert(data.get('responseValue') === 1);
   });
 
-  it('run pipeline ok with { middleware: middleware }', async () => {
+  it('run pipeline ok with pipeline', async () => {
     const pipeline = new Pipeline();
 
-    pipeline.use({
-      middleware: async function (ctx: Context, next: Next): Promise<void> {
-        ctx.namespace('test').set(22222);
-        await next();
-      }
+    pipeline.use(async function (ctx: Context, next: Next): Promise<void> {
+      ctx.namespace('test').set(22222);
+      await next();
     });
 
-    pipeline.use({
-      middleware: async function (ctx: Context, next: Next): Promise<void> {
-        assert(ctx.namespace('test').get() === 22222);
+    pipeline.use(async function (ctx: Context, next: Next): Promise<void> {
+      assert(ctx.namespace('test').get() === 22222);
 
-        const { data } = ctx.output;
-        data.set('responseValue', 1);
-      }
+      const { data } = ctx.output;
+      data.set('responseValue', 1);
     });
 
+    const pipeline2 = new Pipeline();
+    pipeline2.use(pipeline);
     const ctx = new Context();
-    await pipeline.run(ctx);
+    await pipeline2.run(ctx);
 
     const { data } = ctx.output;
     assert(data.get('responseValue') === 1);

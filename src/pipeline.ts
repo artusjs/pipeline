@@ -15,7 +15,9 @@ export class Pipeline {
     }
 
     if (Array.isArray(middleware)) {
-      middleware.forEach(this.use.bind(this));
+      for(const mid of middleware) {
+        this.use(mid);
+      }
       return;
     }
 

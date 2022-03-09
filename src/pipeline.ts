@@ -1,9 +1,12 @@
 
 import { Middlewares, MiddlewareInput, BaseContext } from "./types";
 
+export * from "./types";
+export * from "./base";
+
 export class Pipeline {
   #middlewares: Middlewares = [];
-  #index: number =  -1;
+  #index: number = -1;
 
   use(middleware: MiddlewareInput) {
     if (typeof middleware === 'function') {
@@ -22,7 +25,7 @@ export class Pipeline {
     }
   }
 
-  #dispatch(i: number, ctx: BaseContext<any>): Promise<any> {
+  #dispatch(i: number, ctx: BaseContext): Promise<any> {
     if (i <= this.#index) return Promise.reject(new Error('next() called multiple times'));
     this.#index = i;
     let fn = this.#middlewares[i];
@@ -34,7 +37,7 @@ export class Pipeline {
     }
   }
 
-  run(ctx: BaseContext<any>) {
+  run(ctx: BaseContext): Promise<any> {
     return this.#dispatch(0, ctx);
   }
 }

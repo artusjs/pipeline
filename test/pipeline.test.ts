@@ -6,13 +6,18 @@ describe('test/pipeline.test.ts', () => {
     const pipeline = new Pipeline();
 
     pipeline.use(async function (ctx: Context, next: Next): Promise<void> {
-      ctx.namespace('test').set(22222);
+      ctx.namespace('test').set('before');
       await next();
+      assert(ctx.namespace('test').get() === 'after');
     });
 
     pipeline.use(async function (ctx: Context, next: Next): Promise<void> {
-      assert(ctx.namespace('test').get() === 22222);
+      assert(ctx.namespace('test').get() === 'before');
+      await next();
+      ctx.namespace('test').set('after');
+    });
 
+    pipeline.use(async function (ctx: Context): Promise<void> {
       const { data } = ctx.output;
       data.set('responseValue', 1);
     });
@@ -29,12 +34,18 @@ describe('test/pipeline.test.ts', () => {
 
     pipeline.use([
       async function (ctx: Context, next: Next): Promise<void> {
-        ctx.namespace('test').set(22222);
+        ctx.namespace('test').set('before');
         await next();
+        assert(ctx.namespace('test').get() === 'after');
       },
-      async function (ctx: Context, next: Next): Promise<void> {
-        assert(ctx.namespace('test').get() === 22222);
 
+      async function (ctx: Context, next: Next): Promise<void> {
+        assert(ctx.namespace('test').get() === 'before');
+        await next();
+        ctx.namespace('test').set('after');
+      },
+
+      async function (ctx: Context): Promise<void> {
         const { data } = ctx.output;
         data.set('responseValue', 1);
       }
@@ -51,13 +62,18 @@ describe('test/pipeline.test.ts', () => {
     const pipeline = new Pipeline();
 
     pipeline.use(async function (ctx: Context, next: Next): Promise<void> {
-      ctx.namespace('test').set(22222);
+      ctx.namespace('test').set('before');
       await next();
+      assert(ctx.namespace('test').get() === 'after');
     });
 
     pipeline.use(async function (ctx: Context, next: Next): Promise<void> {
-      assert(ctx.namespace('test').get() === 22222);
+      assert(ctx.namespace('test').get() === 'before');
+      await next();
+      ctx.namespace('test').set('after');
+    });
 
+    pipeline.use(async function (ctx: Context): Promise<void> {
       const { data } = ctx.output;
       data.set('responseValue', 1);
     });

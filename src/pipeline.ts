@@ -47,7 +47,7 @@ export class Pipeline {
     }
 
     if (Array.isArray(middleware)) {
-      middleware.map(this.use);
+      middleware.forEach(this.use);
       return;
     }
 
@@ -63,7 +63,7 @@ export class Pipeline {
     let fn = this.middlewares[i];
     if (!fn) return Promise.resolve();
     try {
-      return Promise.resolve(fn(ctx, this.dispatch.bind(null, i + 1, ctx)));
+      return Promise.resolve(fn(ctx, this.dispatch.bind(this, i + 1, ctx)));
     } catch (err: any) {
       return Promise.reject(err);
     }

@@ -1,5 +1,5 @@
 
-import { Middlewares, MiddlewareInput, BaseContext } from "./types";
+import { Context, Middlewares, MiddlewareInput } from "./base";
 
 export * from "./types";
 export * from "./base";
@@ -15,7 +15,7 @@ export class Pipeline {
     }
 
     if (Array.isArray(middleware)) {
-      middleware.forEach(this.use);
+      middleware.forEach(this.use.bind(this));
       return;
     }
 
@@ -25,7 +25,7 @@ export class Pipeline {
     }
   }
 
-  #dispatch(i: number, ctx: BaseContext): Promise<any> {
+  #dispatch(i: number, ctx: Context): Promise<any> {
     if (i <= this.#index) return Promise.reject(new Error('next() called multiple times'));
     this.#index = i;
     let fn = this.#middlewares[i];
@@ -37,7 +37,7 @@ export class Pipeline {
     }
   }
 
-  run(ctx: BaseContext): Promise<any> {
+  run(ctx: Context): Promise<any> {
     return this.#dispatch(0, ctx);
   }
 }

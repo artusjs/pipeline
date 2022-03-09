@@ -1,5 +1,5 @@
 
-const ContextMapSymbol = Symbol('ARTUS::ContextMap')
+const ContextStorageSymbol = Symbol('ARTUS::ContextStorage');
 
 export interface ParamsDictionary {
   [key: string]: string;
@@ -14,7 +14,7 @@ export type BaseResponse<P = ParamsDictionary> = {
 };
 
 export type ContextStorage<T> = {
-  [ContextMapSymbol]: T,
+  [ContextStorageSymbol]: T,
   set: (value: T) => void,
   get: () => T
 };
@@ -32,9 +32,12 @@ export type Middlewares = Middleware[];
 export type MiddlewareInput = Middleware | Middlewares | { middleware: Middleware };
 
 export class Pipeline {
-  private middlewares: Middlewares;
+  private readonly middlewares: Middlewares;
+  private index: number;
+
   constructor() {
     this.middlewares = [];
+    this.index = -1;
   }
 
   use(middleware: MiddlewareInput) {
@@ -52,5 +55,21 @@ export class Pipeline {
       this.use(middleware.middleware);
       return;
     }
+  }
+
+  private dispatch(i: number, ctx: BaseContext<any>): Promise<any> {
+    if (i <= this.index) return Promise.reject(new Error('next() called multiple times'));
+    this.index = i;
+    let fn = this.middlewares[i];
+    if (!fn) return Promise.resolve();
+    try {
+      return Promise.resolve(fn(ctx, this.dispatch.bind(null, i + 1, ctx)));
+    } catch (err: any) {
+      return Promise.reject(err);
+    }
+  }
+
+  run(ctx: BaseContext<any>) {
+    return this.dispatch(0, ctx);
   }
 }

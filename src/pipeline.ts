@@ -22,6 +22,7 @@ export class Pipeline implements PipelineLike {
       return;
     }
 
+    // eg. pipeline1.use(pipeline2)
     if (middleware.middlewares) {
       this.use(middleware.middlewares);
       return;

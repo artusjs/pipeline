@@ -27,6 +27,8 @@ export class Pipeline implements PipelineLike {
       this.use(middleware.middlewares);
       return;
     }
+
+    throw new Error(`${middleware} isn't type MiddlewareInput`);
   }
 
   #dispatch(i: number, ctx: Context): Promise<any> {

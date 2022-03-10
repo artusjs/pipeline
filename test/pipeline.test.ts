@@ -111,4 +111,29 @@ describe('test/pipeline.test.ts', () => {
     }
     assert(error === 'next() called multiple times');
   });
+
+  it('run pipeline falied if middleware throw', async () => {
+    const pipeline = new Pipeline();
+
+    pipeline.use([
+      async function (ctx: Context, next: Next): Promise<void> {
+        await next();
+        throw new Error('mock error');
+      },
+
+      async function (ctx: Context): Promise<void> {
+        const { data } = ctx.output;
+        data.set('responseValue', 1);
+      }
+    ]);
+
+    const ctx = new Context();
+    let error = '';
+    try {
+      await pipeline.run(ctx);
+    } catch (err: any) {
+      error = err.message;
+    }
+    assert(error === 'mock error');
+  });
 });

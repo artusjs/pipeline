@@ -1,9 +1,5 @@
 
-import { PipelineLike } from ".";
-import { Context, Middlewares, MiddlewareInput } from "./base";
-
-export * from "./types";
-export * from "./base";
+import { Context, Middlewares, MiddlewareInput, PipelineLike } from "./base";
 
 export class Pipeline implements PipelineLike {
   middlewares: Middlewares = [];

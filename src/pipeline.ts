@@ -1,13 +1,9 @@
 
-import { PipelineLike } from ".";
-import { Context, Middlewares, MiddlewareInput } from "./base";
-
-export * from "./types";
-export * from "./base";
+import { Context, Middlewares, MiddlewareInput, PipelineLike } from "./base";
 
 export class Pipeline implements PipelineLike {
   middlewares: Middlewares = [];
-  #index: number = -1;
+  private index: number = -1;
 
   use(middleware: MiddlewareInput) {
     if (typeof middleware === 'function') {
@@ -31,19 +27,19 @@ export class Pipeline implements PipelineLike {
     throw new Error(`${middleware} isn't type MiddlewareInput`);
   }
 
-  #dispatch(i: number, ctx: Context): Promise<any> {
-    if (i <= this.#index) return Promise.reject(new Error('next() called multiple times'));
-    this.#index = i;
+  dispatch(i: number, ctx: Context): Promise<any> {
+    if (i <= this.index) return Promise.reject(new Error('next() called multiple times'));
+    this.index = i;
     let fn = this.middlewares[i];
     if (!fn) return Promise.resolve();
     try {
-      return Promise.resolve(fn(ctx, this.#dispatch.bind(this, i + 1, ctx)));
+      return Promise.resolve(fn(ctx, this.dispatch.bind(this, i + 1, ctx)));
     } catch (err: any) {
       return Promise.reject(err);
     }
   }
 
   run(ctx: Context): Promise<any> {
-    return this.#dispatch(0, ctx);
+    return this.dispatch(0, ctx);
   }
 }

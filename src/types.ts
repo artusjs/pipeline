@@ -10,7 +10,7 @@ export interface BaseOutput<P = ParamsDictionary> {
   data: P
 };
 
-export interface BaseContext {
+export interface BaseContext extends ParamsDictionary {
   input: BaseInput,
   output: BaseOutput,
   namespace: (namespace: string) => ContextStorage<any>,

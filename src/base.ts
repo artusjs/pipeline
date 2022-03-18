@@ -14,23 +14,23 @@ export class Output implements BaseOutput {
 }
 
 export class Storage implements ContextStorage<any>{
-  #storageMap = new Map();
+  private storageMap = new Map();
 
   get(key?: string | symbol): any {
     key ??= ContextStorageSymbol;
-    return this.#storageMap.get(key);
+    return this.storageMap.get(key);
   }
 
   set(value: any, key?: string | symbol): void {
     key ??= ContextStorageSymbol;
-    this.#storageMap.set(key, value);
+    this.storageMap.set(key, value);
   }
 }
 
 export class Context implements BaseContext {
   public input: BaseInput = new Input();
   public output: BaseOutput = new Output();
-  #stogrageMap = new Map<string, ContextStorage<any>>();
+  private stogrageMap = new Map<string, ContextStorage<any>>();
 
   constructor(input?: Input, output?: Output) {
     this.input = input ?? this.input;
@@ -38,10 +38,10 @@ export class Context implements BaseContext {
   }
 
   namespace(namespace: string): ContextStorage<any> {
-    let storage = this.#stogrageMap.get(namespace);
+    let storage = this.stogrageMap.get(namespace);
     if (!storage) {
       storage = new Storage();
-      this.#stogrageMap.set(namespace, storage);
+      this.stogrageMap.set(namespace, storage);
     }
 
     return storage;

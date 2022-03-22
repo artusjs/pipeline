@@ -24,6 +24,7 @@ describe('test/pipeline.test.ts', () => {
 
     const ctx = new Context();
     await pipeline.run(ctx);
+    await pipeline.run(ctx);
 
     const { data } = ctx.output;
     assert(data.get('responseValue') === 1);

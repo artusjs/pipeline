@@ -1,8 +1,10 @@
+import { Container, ExecutionContainer } from '@artus/injection';
 import {
   BaseContext, BaseInput, BaseOutput,
-  ContextStorage, ParamsDictionary, Next
-} from "./types";
+  ContextStorage, ParamsDictionary, Next, ContextInitOptions
+} from './types';
 
+const DEFAULT_EXECUTION_CONTAINER_NAME = 'artus#execution';
 const ContextStorageSymbol = Symbol('ARTUS::ContextStorage');
 
 export class Input implements BaseInput {
@@ -27,12 +29,13 @@ export class Storage implements ContextStorage<any>{
   }
 }
 
-export class Context implements BaseContext {
+export class Context extends ExecutionContainer implements BaseContext {
   public input: BaseInput = new Input();
   public output: BaseOutput = new Output();
   private stogrageMap = new Map<string, ContextStorage<any>>();
 
-  constructor(input?: Input, output?: Output) {
+  constructor(input?: Input, output?: Output, opts?: ContextInitOptions) {
+    super(null, opts?.parentContainer ?? new Container(DEFAULT_EXECUTION_CONTAINER_NAME));
     this.input = input ?? this.input;
     this.output = output ?? this.output;
   }

@@ -29,15 +29,20 @@ export class Storage implements ContextStorage<any>{
   }
 }
 
-export class Context extends ExecutionContainer implements BaseContext {
+export class Context implements BaseContext {
   public input: BaseInput = new Input();
   public output: BaseOutput = new Output();
   private storageMap = new Map<string, ContextStorage<any>>();
+  protected container: ExecutionContainer;
 
   constructor(input?: Input, output?: Output, opts?: ContextInitOptions) {
-    super(null, opts?.parentContainer ?? new Container(DEFAULT_EXECUTION_CONTAINER_NAME));
     this.input = input ?? this.input;
     this.output = output ?? this.output;
+
+    this.container = new ExecutionContainer(
+      this,
+      opts?.parentContainer ?? new Container(DEFAULT_EXECUTION_CONTAINER_NAME)
+    );
   }
 
   namespace(namespace: string): ContextStorage<any> {

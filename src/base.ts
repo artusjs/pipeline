@@ -32,7 +32,7 @@ export class Storage implements ContextStorage<any>{
 export class Context extends ExecutionContainer implements BaseContext {
   public input: BaseInput = new Input();
   public output: BaseOutput = new Output();
-  private stogrageMap = new Map<string, ContextStorage<any>>();
+  private storageMap = new Map<string, ContextStorage<any>>();
 
   constructor(input?: Input, output?: Output, opts?: ContextInitOptions) {
     super(null, opts?.parentContainer ?? new Container(DEFAULT_EXECUTION_CONTAINER_NAME));
@@ -41,10 +41,10 @@ export class Context extends ExecutionContainer implements BaseContext {
   }
 
   namespace(namespace: string): ContextStorage<any> {
-    let storage = this.stogrageMap.get(namespace);
+    let storage = this.storageMap.get(namespace);
     if (!storage) {
       storage = new Storage();
-      this.stogrageMap.set(namespace, storage);
+      this.storageMap.set(namespace, storage);
     }
 
     return storage;

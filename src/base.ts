@@ -32,8 +32,10 @@ export class Storage implements ContextStorage<any>{
 export class Context implements BaseContext {
   public input: BaseInput = new Input();
   public output: BaseOutput = new Output();
+
+  // 不建议对外使用
+  public container: ExecutionContainer;
   private storageMap = new Map<string, ContextStorage<any>>();
-  protected container: ExecutionContainer;
 
   constructor(input?: Input, output?: Output, opts?: ContextInitOptions) {
     this.input = input ?? this.input;

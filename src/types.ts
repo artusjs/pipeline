@@ -1,5 +1,3 @@
-import { Container } from '@artus/injection';
-
 export interface ParamsDictionary {
   [key: string]: any;
 }
@@ -16,11 +14,8 @@ export interface BaseContext extends ParamsDictionary {
   input: BaseInput,
   output: BaseOutput,
   namespace: (namespace: string) => ContextStorage<any>,
+  restore?: () => void,
 };
-
-export interface ContextInitOptions {
-  parentContainer?: Container;
-}
 
 export type ContextStorage<T> = {
   set: (value: T, key?: string | symbol) => void,

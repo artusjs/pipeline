@@ -1,7 +1,7 @@
-import { Container, ExecutionContainer } from '@artus/injection';
+import type { ExecutionContainer } from '@artus/injection';
 import {
   BaseContext, BaseInput, BaseOutput,
-  ContextStorage, ParamsDictionary, Next, ContextInitOptions
+  ContextStorage, ParamsDictionary, Next
 } from './types';
 
 const DEFAULT_EXECUTION_CONTAINER_NAME = 'artus#execution';
@@ -33,18 +33,20 @@ export class Context implements BaseContext {
   public input: BaseInput = new Input();
   public output: BaseOutput = new Output();
 
-  // 不建议对外使用
-  public container: ExecutionContainer;
+  private _container!: ExecutionContainer | null;
   private storageMap = new Map<string, ContextStorage<any>>();
 
-  constructor(input?: Input, output?: Output, opts?: ContextInitOptions) {
+  constructor(input?: Input, output?: Output) {
     this.input = input ?? this.input;
     this.output = output ?? this.output;
+  }
 
-    this.container = new ExecutionContainer(
-      this,
-      opts?.parentContainer ?? new Container(DEFAULT_EXECUTION_CONTAINER_NAME)
-    );
+  get container() {
+    return this._container;
+  }
+
+  set container(container: ExecutionContainer | null) {
+    this._container = container;
   }
 
   namespace(namespace: string): ContextStorage<any> {
@@ -55,7 +57,14 @@ export class Context implements BaseContext {
     }
 
     return storage;
-  };
+  }
+
+  restore() {
+    this.storageMap.clear();
+    this.input.params.clear();
+    this.output.data.clear();
+    this.container = null;
+  }
 }
 
 export type Middleware = (context: Context, next: Next) => void;

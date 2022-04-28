@@ -4,11 +4,12 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "npm run build:dist",
-    "build:dist": "tsc --version && tsc -b ./tsconfig.json",
-    "test": "tsc --version && jest",
+    "build:dist": "tsc --version && tsc -b ./tsconfig.build.json",
+    "test": "tsc --version && jest --coverage",
     "ci": "npm run test"
   },
   "devDependencies": {
+    "@artus/injection": "^0.1.1",
     "@types/jest": "^27.4.1",
     "egg-ci": "^1.19.0",
     "jest": "^27.5.1",
@@ -16,7 +17,6 @@
     "typescript": "^4.6.2"
   },
   "dependencies": {
-    "@artus/injection": "^0.1.1",
     "tslib": "^2.3.1"
   },
   "ci": {

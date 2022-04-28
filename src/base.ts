@@ -4,7 +4,6 @@ import {
   ContextStorage, ParamsDictionary, Next
 } from './types';
 
-const DEFAULT_EXECUTION_CONTAINER_NAME = 'artus#execution';
 const ContextStorageSymbol = Symbol('ARTUS::ContextStorage');
 
 export class Input implements BaseInput {

@@ -22,15 +22,11 @@
     "lib": [
       "ESNext"
     ],
-    "rootDir": "./src",
     "outDir": "./dist",
-    "composite": true
-  },
-  "include": [
-    "src"
-  ],
-  "types": [
-    "node",
-    "jest",
-  ],
+    "composite": true,
+    "types": [
+      "node",
+      "jest",
+    ],
+  }
 }

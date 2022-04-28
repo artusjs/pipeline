@@ -25,10 +25,10 @@ export class Reusify<T = any> {
     public get() {
         let current = this.head
         if (current[next]) {
-            this.head = current[next]
+            this.head = current[next];
         } else {
             this.head = this.getInstance();
-            this.tail = this.head
+            this.tail = this.head;
         }
         current[next] = null;
         this.count--;
@@ -36,7 +36,7 @@ export class Reusify<T = any> {
     }
 
     public release(obj: T) {
-        if (this.count > this.max) {
+        if (this.count >= this.max) {
             return;
         }
         this.tail[next] = obj;

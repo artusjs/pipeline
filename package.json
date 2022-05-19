@@ -24,6 +24,6 @@
     "os": {
       "github": "linux, windows, macos"
     },
-    "version": "12, 14, 16"
+    "version": "16"
   }
 }

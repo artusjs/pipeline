@@ -1,6 +1,6 @@
 {
   "name": "@artus/pipeline",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "main": "dist/index.js",
   "scripts": {
     "build": "npm run build:dist",

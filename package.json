@@ -9,7 +9,7 @@
     "ci": "npm run test"
   },
   "devDependencies": {
-    "@artus/injection": "^0.1.1",
+    "@artus/injection": "^0.2.0",
     "@types/jest": "^27.4.1",
     "egg-ci": "^1.19.0",
     "jest": "^27.5.1",

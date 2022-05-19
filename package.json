@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "npm run build:dist",
-    "build:dist": "tsc --version && tsc -b ./tsconfig.build.json",
+    "build:dist": "tsc --version && tsc -p ./tsconfig.build.json",
     "test": "tsc --version && jest --coverage",
     "ci": "npm run test"
   },

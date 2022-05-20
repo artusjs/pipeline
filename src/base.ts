@@ -32,7 +32,7 @@ export class Context implements BaseContext {
   public input: BaseInput = new Input();
   public output: BaseOutput = new Output();
 
-  private _container!: ExecutionContainer | null;
+  private _container!: ExecutionContainer;
   private storageMap = new Map<string, ContextStorage<any>>();
 
   constructor(input?: Input, output?: Output) {
@@ -44,7 +44,7 @@ export class Context implements BaseContext {
     return this._container;
   }
 
-  set container(container: ExecutionContainer | null) {
+  set container(container: ExecutionContainer) {
     this._container = container;
   }
 
@@ -62,7 +62,7 @@ export class Context implements BaseContext {
     this.storageMap.clear();
     this.input.params.clear();
     this.output.data.clear();
-    this.container = null;
+    this.container = null as any;
   }
 }
 

@@ -1,8 +1,5 @@
 import type { ExecutionContainer } from '@artus/injection';
-import {
-  BaseContext, BaseInput, BaseOutput,
-  ContextStorage, ParamsDictionary, Next
-} from './types';
+import { BaseContext, BaseInput, BaseOutput, ContextStorage, ParamsDictionary, Next } from './types';
 
 const ContextStorageSymbol = Symbol('ARTUS::ContextStorage');
 
@@ -14,7 +11,7 @@ export class Output implements BaseOutput {
   public data: ParamsDictionary = new Map();
 }
 
-export class Storage implements ContextStorage<any>{
+export class Storage implements ContextStorage<any> {
   private storageMap = new Map();
 
   get(key?: string | symbol): any {
@@ -29,8 +26,8 @@ export class Storage implements ContextStorage<any>{
 }
 
 export class Context implements BaseContext {
-  public input: BaseInput = new Input();
-  public output: BaseOutput = new Output();
+  public input: Input = new Input();
+  public output: Output = new Output();
 
   private _container!: ExecutionContainer | null;
   private storageMap = new Map<string, ContextStorage<any>>();
@@ -66,7 +63,7 @@ export class Context implements BaseContext {
   }
 }
 
-export type Middleware = (context: Context, next: Next) => void;
+export type Middleware<T extends BaseContext = any> = (context: T, next: Next) => void;
 export type Middlewares = Middleware[];
 export type PipelineLike = { middlewares: Middlewares };
 export type MiddlewareInput = Middleware | Middlewares | PipelineLike;

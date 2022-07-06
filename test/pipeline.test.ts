@@ -92,7 +92,7 @@ describe('test/pipeline.test.ts', () => {
     const pipeline = new Pipeline();
 
     pipeline.use([
-      async function (ctx: Context, next: Next): Promise<void> {
+      async function (_: Context, next: Next): Promise<void> {
         await next();
         await next();
       },
@@ -117,7 +117,7 @@ describe('test/pipeline.test.ts', () => {
     const pipeline = new Pipeline();
 
     pipeline.use([
-      async function (ctx: Context, next: Next): Promise<void> {
+      async function (_: Context, next: Next): Promise<void> {
         await next();
         throw new Error('mock error');
       },

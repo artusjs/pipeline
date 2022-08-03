@@ -6,7 +6,9 @@
     "build": "npm run build:dist",
     "build:dist": "tsc --version && tsc -p ./tsconfig.build.json",
     "test": "tsc --version && jest --coverage",
-    "ci": "npm run test"
+    "ci": "npm run lint && npm run test",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "lint": "eslint . --ext .ts"
   },
   "devDependencies": {
     "@artus/injection": "^0.2.0",
@@ -14,6 +16,9 @@
     "egg-ci": "^1.19.0",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.3",
+    "@artus/eslint-config-artus": "0.0.1",
+    "eslint": "^8.19.0",
+    "eslint-plugin-import": "^2.26.0",
     "typescript": "^4.6.2"
   },
   "dependencies": {

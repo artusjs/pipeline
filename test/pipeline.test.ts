@@ -49,7 +49,7 @@ describe('test/pipeline.test.ts', () => {
       async function (ctx: Context): Promise<void> {
         const { data } = ctx.output;
         data.set('responseValue', 1);
-      }
+      },
     ]);
 
     const ctx = new Context();
@@ -100,7 +100,7 @@ describe('test/pipeline.test.ts', () => {
       async function (ctx: Context): Promise<void> {
         const { data } = ctx.output;
         data.set('responseValue', 1);
-      }
+      },
     ]);
 
     const ctx = new Context();
@@ -125,7 +125,7 @@ describe('test/pipeline.test.ts', () => {
       async function (ctx: Context): Promise<void> {
         const { data } = ctx.output;
         data.set('responseValue', 1);
-      }
+      },
     ]);
 
     const ctx = new Context();

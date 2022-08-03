@@ -29,7 +29,7 @@ export class Pipeline implements PipelineLike {
   dispatch(i: number, ctx: BaseContext, execution = { index: -1 }): Promise<any> {
     if (i <= execution.index) return Promise.reject(new Error('next() called multiple times'));
     execution.index = i;
-    let fn = this.middlewares[i];
+    const fn = this.middlewares[i];
     if (!fn) return Promise.resolve();
     try {
       return Promise.resolve(fn(ctx, this.dispatch.bind(this, i + 1, ctx, execution)));

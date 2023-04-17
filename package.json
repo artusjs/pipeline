@@ -31,5 +31,6 @@
       "github": "linux, windows, macos"
     },
     "version": "16"
-  }
+  },
+  "license": "MIT"
 }
